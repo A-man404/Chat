@@ -12,6 +12,7 @@ fun Routing.authRoutes() {
     val authService = AuthService()
 
     route("/user") {
+
         post("/create") {
             try {
                 val request = call.receive<SignupRequest>()
@@ -21,6 +22,7 @@ fun Routing.authRoutes() {
                 call.respond(message = e.message.toString(), status = HttpStatusCode.InternalServerError)
             }
         }
+
     }
 
 
