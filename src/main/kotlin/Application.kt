@@ -1,8 +1,6 @@
 package com.example
 
-import com.example.plugins.DatabaseFactory
-import com.example.plugins.configureSerialization
-import com.example.plugins.configureRouting
+import com.example.plugins.*
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -12,6 +10,9 @@ fun main(args: Array<String>) {
 fun Application.module() {
 
     DatabaseFactory().init()
+    val jwtConfig = JWTConfig()
+
+    configureSecurity(jwtConfig)
 
     configureSerialization()
     configureRouting()
