@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.javatime.CurrentTimestamp
 import org.jetbrains.exposed.sql.javatime.timestamp
 
 
-object User : Table() {
+object Users : Table() {
     val id = integer("id").autoIncrement()
     val username = varchar("username", 25).uniqueIndex()
 

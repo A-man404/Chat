@@ -7,13 +7,13 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import table.User
+import table.Users
 
 class UserRepository {
 
     fun createUser(signupRequest: SignupRequest): Int {
         val user = transaction {
-            User.insert {
+            Users.insert {
                 it[username] = signupRequest.username
                 it[email] = signupRequest.email
                 it[mobile] = signupRequest.mobile
@@ -22,24 +22,24 @@ class UserRepository {
                 it[firstName] = signupRequest.firstName
                 it[lastName] = signupRequest.lastName
                 it[bio] = signupRequest.bio ?: ""
-            } get User.id
+            } get Users.id
         }
         return user
     }
 
     fun userExists(username: String, email: String, mobile: String): Boolean {
         return transaction {
-            User.selectAll().where {
-                (User.username eq username) or
-                        (User.email eq email) or
-                        (User.mobile eq mobile)
+            Users.selectAll().where {
+                (Users.username eq username) or
+                        (Users.email eq email) or
+                        (Users.mobile eq mobile)
             }.limit(1).any()
         }
     }
 
     fun listAllUsers(): List<UserResponse> {
         return transaction {
-            User.selectAll().map { it.toUserResponse() }
+            Users.selectAll().map { it.toUserResponse() }
         }
 
     }

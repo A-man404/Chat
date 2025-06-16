@@ -6,7 +6,7 @@ import io.github.cdimascio.dotenv.Dotenv
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import table.User
+import table.Users
 
 class DatabaseFactory {
 
@@ -31,7 +31,7 @@ class DatabaseFactory {
 
     fun init() {
         transaction {
-            SchemaUtils.create(User)
+            SchemaUtils.create(Users)
         }
     }
 
