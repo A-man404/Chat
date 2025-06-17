@@ -2,9 +2,6 @@
 GET http://localhost:8080/users/all
 Content-Type: application/json
 
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJpZCI6MSwicm9sZSI6IlVTRVIiLCJleHAiOjE3NTAyMjM3Mzl9.Mjmq-kMx3bPKfvYWV1HmHvziqOh_6iCXoa5ESjIa_i4"
-}
 
 ###
 
