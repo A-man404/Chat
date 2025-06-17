@@ -3,7 +3,6 @@ package com.example.model
 import kotlinx.serialization.Serializable
 import table.AccountStatus
 import table.ROLE
-import java.util.Date
 
 @Serializable
 data class SignupRequest(
@@ -35,6 +34,16 @@ data class UserResponse(
     val lastName: String? = null,
     val bio: String?,
 )
+
+@Serializable
+data class UserProfile(
+    val username: String,
+    val profileImage: String? = null,
+    val firstName: String,
+    val lastName: String? = null,
+    val bio: String?,
+)
+
 @Serializable
 data class FullUser(
     val id: Int,

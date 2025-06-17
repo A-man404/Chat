@@ -61,12 +61,12 @@ fun Application.configureSecurity(config: JWTConfig) {
     }
 }
 
-fun generateToken(config: JWTConfig, userId: Int, role: ROLE): String {
+fun generateToken(config: JWTConfig, userId: Int?, role: ROLE?): String {
     return JWT.create()
         .withAudience(config.audience)
         .withIssuer(config.issuer)
         .withClaim("id", userId)
-        .withClaim("role", role.name)
+        .withClaim("role", role?.name)
         .withExpiresAt(Date(System.currentTimeMillis() + config.tokenExpiry))
         .sign(Algorithm.HMAC256(config.secret))
 }
