@@ -39,5 +39,6 @@ dependencies {
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
     implementation("org.jetbrains.exposed:exposed-java-time:0.45.0")
     implementation("org.mindrot:jbcrypt:0.4")
+    implementation("org.apache.commons:commons-email:1.5")
 
 }

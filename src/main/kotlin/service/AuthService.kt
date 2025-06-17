@@ -1,9 +1,6 @@
 package com.example.service
 
-import com.example.model.ApiResponse
-import com.example.model.LoginRequest
-import com.example.model.SignupRequest
-import com.example.model.UserResponse
+import com.example.model.*
 import com.example.plugins.JWTConfig
 import com.example.plugins.generateToken
 import com.example.repository.UserRepository
@@ -57,7 +54,7 @@ class AuthService {
 
     }
 
-    fun loginUser(loginRequest: LoginRequest, jwtConfig: JWTConfig): ApiResponse<UserResponse?> {
+    fun loginUser(loginRequest: LoginRequest, jwtConfig: JWTConfig): ApiResponse<String?> {
         return try {
             if (!userRepository.emailExists(loginRequest.email)) {
                 ApiResponse(
@@ -67,7 +64,7 @@ class AuthService {
                     message = "This user doesnt exist"
                 )
             } else {
-                val user = userRepository.findUser(loginRequest.email)
+                val user = userRepository.findUserByEmail(loginRequest.email)
                 if (!PasswordHasher.verifyPassword(loginRequest.password, user?.hashedPassword ?: "")) {
                     ApiResponse(
                         data = null,
@@ -76,9 +73,9 @@ class AuthService {
                         message = "Your Password is incorrect"
                     )
                 } else {
-                    val token = generateToken(jwtConfig, user?.id ?: "", user?.role ?: )
+                    val token = generateToken(jwtConfig, user?.id, user?.role)
                     ApiResponse(
-                        data = null,
+                        data = token,
                         success = true,
                         statusCode = HttpStatusCode.OK.value,
                         message = "User Logged In Successfully"
@@ -94,6 +91,7 @@ class AuthService {
             )
         }
     }
+
 
 
 }
