@@ -5,8 +5,8 @@ import com.example.model.SignupRequest
 import com.example.model.UserResponse
 import com.example.utils.toFullUser
 import com.example.utils.toUserResponse
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.lowerCase
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -46,6 +46,22 @@ class UserRepository {
         }
     }
 
+    fun usernameExists(username: String): Boolean {
+        return transaction {
+            Users.selectAll().where {
+                (Users.username eq username)
+            }.limit(1).any()
+        }
+    }
+
+    fun idExists(id: Int): Boolean {
+        return transaction {
+            Users.selectAll().where {
+                (Users.id eq id)
+            }.limit(1).any()
+        }
+    }
+
     fun listAllUsers(): List<UserResponse> {
         return transaction {
             Users.selectAll().map { it.toUserResponse() }
@@ -53,11 +69,43 @@ class UserRepository {
 
     }
 
-    fun findUser(email: String): FullUser? {
+    fun findUserByEmail(email: String): FullUser? {
         return transaction {
-            Users.select(Users.email eq email).map {
-                it.toFullUser()
-            }.singleOrNull()
+            Users
+                .selectAll()
+                .where { Users.email eq email }
+                .map { it.toFullUser() }
+                .singleOrNull()
         }
     }
+
+    fun findUserByUsername(username: String): FullUser? {
+        return transaction {
+            Users
+                .selectAll()
+                .where { Users.username.lowerCase() eq username.lowercase() }
+                .map { it.toFullUser() }
+                .singleOrNull()
+        }
+    }
+
+    fun findUserById(id: Int): FullUser? {
+        return transaction {
+            Users
+                .selectAll()
+                .where { Users.id eq id }
+                .map { it.toFullUser() }
+                .singleOrNull()
+        }
+    }
+
+    fun findUsersByQuery(query: String): List<FullUser> {
+        val pattern = "%${query.lowercase()}%"
+        return transaction {
+            Users
+                .selectAll().where { Users.username.lowerCase() like pattern }
+                .map { it.toFullUser() }
+        }
+    }
+
 }
