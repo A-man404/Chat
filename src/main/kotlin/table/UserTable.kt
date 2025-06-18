@@ -28,3 +28,5 @@ object Users : Table() {
 enum class ROLE { ADMIN, USER }
 
 enum class AccountStatus { ACTIVE, DEACTIVATED, BANNED }
+
+enum class UserStatus { ONLINE, IDLE, OFFLINE, DND }
