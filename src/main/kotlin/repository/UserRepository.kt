@@ -3,12 +3,10 @@ package com.example.repository
 import com.example.model.FullUser
 import com.example.model.SignupRequest
 import com.example.model.UserResponse
+import com.example.utils.PasswordHasher
 import com.example.utils.toFullUser
 import com.example.utils.toUserResponse
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.lowerCase
-import org.jetbrains.exposed.sql.or
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import table.Users
 
@@ -108,4 +106,21 @@ class UserRepository {
         }
     }
 
+    fun changeUserVerification(id: Int): Boolean {
+        return transaction {
+            Users.update({ Users.id eq id }) {
+                it[isVerified] = true
+            } > 0
+        }
+    }
+
+    fun changePassword(id: Int, newPassword: String): Boolean {
+        val safePassword = PasswordHasher.hashPassword(newPassword)
+        return transaction {
+            Users.update({ Users.id eq id }) {
+                it[hashedPassword] = safePassword
+            } > 0
+        }
+
+    }
 }
