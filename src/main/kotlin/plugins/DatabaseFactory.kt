@@ -22,6 +22,9 @@ class DatabaseFactory {
         maximumPoolSize = 10
         isAutoCommit = false
         transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+        idleTimeout = 900_000
+        maxLifetime = 1_800_000
+        keepaliveTime = 150_000
         validate()
     }
 
@@ -31,7 +34,9 @@ class DatabaseFactory {
 
     fun init() {
         transaction {
-            SchemaUtils.create(Users)
+            SchemaUtils.addMissingColumnsStatements(Users).forEach {
+                exec(it)
+            }
         }
     }
 
