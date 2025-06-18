@@ -61,3 +61,17 @@ data class FullUser(
     val updatedAt: String,
     val accountStatus: AccountStatus
 )
+
+@Serializable
+data class ChangePassword(
+    val oldPassword: String,
+    val newPassword: String,
+)
+
+
+@Serializable
+data class ForgotPassword(
+    val otp: String,
+    val newPassword: String,
+)
+
