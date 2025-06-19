@@ -75,7 +75,7 @@ fun Routing.userRoutes() {
                     val res = userService.getProfileByUsername(username)
                     val user = res.data?.toUserProfile() ?: return@get call.respond(
                         HttpStatusCode.BadRequest,
-                        "Please send a username"
+                        res
                     )
                     call.respond(HttpStatusCode.fromValue(res.statusCode), user)
                 } catch (e: Exception) {
@@ -96,7 +96,7 @@ fun Routing.userRoutes() {
                     val res = userService.searchUser(query)
                     val users = res.data?.map { it.toUserProfile() } ?: return@get call.respond(
                         HttpStatusCode.BadRequest,
-                        "Bad Request"
+                        res
                     )
                     call.respond(HttpStatusCode.fromValue(res.statusCode), users)
                 } catch (e: Exception) {

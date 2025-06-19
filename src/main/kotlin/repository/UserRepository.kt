@@ -47,7 +47,7 @@ class UserRepository {
     fun usernameExists(username: String): Boolean {
         return transaction {
             Users.selectAll().where {
-                (Users.username eq username)
+                (Users.username.trim().lowerCase() eq username.trim().lowercase())
             }.limit(1).any()
         }
     }
@@ -81,7 +81,9 @@ class UserRepository {
         return transaction {
             Users
                 .selectAll()
-                .where { Users.username.lowerCase() eq username.lowercase() }
+                .where {
+                    Users.username.trim().lowerCase() eq username.trim().lowercase()
+                }
                 .map { it.toFullUser() }
                 .singleOrNull()
         }
@@ -98,7 +100,7 @@ class UserRepository {
     }
 
     fun findUsersByQuery(query: String): List<FullUser> {
-        val pattern = "%${query.lowercase()}%"
+        val pattern = "${query.lowercase()}%"
         return transaction {
             Users
                 .selectAll().where { Users.username.lowerCase() like pattern }
