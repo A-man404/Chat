@@ -11,13 +11,13 @@ POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "username": "Demo",
-  "email": "amansaeini204a@gmail.com",
+  "username": "Kartik",
+  "email": "dollarkartik0@gmail.com",
   "password": "2312",
-  "mobile": "0987e6254321",
-  "firstName": "Aman",
-  "lastName": "Saini",
-  "bio": "HELLO"
+  "mobile": "09876543",
+  "firstName": "Kartik",
+  "lastName": "Dhingra",
+  "bio": "500 me deta hu gand"
 }
 
 ###

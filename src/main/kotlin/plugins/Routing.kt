@@ -1,6 +1,7 @@
 package com.example.plugins
 
 import com.example.routes.authRoutes
+import com.example.routes.friendRoutes
 import com.example.routes.userRoutes
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -13,5 +14,6 @@ fun Application.configureRouting(jwtConfig: JWTConfig) {
         }
         authRoutes(jwtConfig)
         userRoutes()
+        friendRoutes()
     }
 }
