@@ -1,5 +1,6 @@
 package com.example.plugins
 
+import com.example.table.BlockedUsers
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.github.cdimascio.dotenv.Dotenv
@@ -34,7 +35,8 @@ class DatabaseFactory {
 
     fun init() {
         transaction {
-            SchemaUtils.addMissingColumnsStatements(Users).forEach {
+            SchemaUtils.create(Users, BlockedUsers)
+            SchemaUtils.addMissingColumnsStatements(Users, BlockedUsers).forEach {
                 exec(it)
             }
         }
