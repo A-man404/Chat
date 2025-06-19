@@ -63,12 +63,23 @@ class UserService {
     fun searchUser(query: String): ApiResponse<List<FullUser>?> {
         return try {
             val user = userRepository.findUsersByQuery(query)
-            ApiResponse(
-                data = user,
-                success = true,
-                statusCode = HttpStatusCode.OK.value,
-                message = "Profile Fetched Successfully"
-            )
+
+            if (!user.isEmpty()) {
+                ApiResponse(
+                    data = user,
+                    success = true,
+                    statusCode = HttpStatusCode.OK.value,
+                    message = "Profile Fetched Successfully"
+                )
+            } else {
+                ApiResponse(
+                    data = null,
+                    success = false,
+                    statusCode = HttpStatusCode.NotFound.value,
+                    message = "No User Found"
+                )
+            }
+
 
         } catch (e: Exception) {
             ApiResponse(
@@ -82,7 +93,8 @@ class UserService {
 
     fun getProfileByUsername(name: String): ApiResponse<FullUser?> {
         return try {
-            if (!userRepository.usernameExists(name)) {
+
+            if (!userRepository.usernameExists(name.trim().lowercase())) {
                 ApiResponse(
                     data = null,
                     success = false,
@@ -93,7 +105,7 @@ class UserService {
                 val user = userRepository.findUserByUsername(name)
                 ApiResponse(
                     data = user,
-                    success = false,
+                    success = true,
                     statusCode = HttpStatusCode.OK.value,
                     message = "Profile Fetched Successfully"
                 )
