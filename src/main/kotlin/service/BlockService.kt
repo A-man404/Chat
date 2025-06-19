@@ -14,6 +14,9 @@ class BlockService {
     fun blockUser(blockRequest: BlockRequest): ApiResponse<String?> {
         return if (!userRepository.idExists(blockRequest.userId) && !userRepository.idExists(blockRequest.blockedUserId)) {
             ApiResponse(null, "Users doesn't exist", false, HttpStatusCode.NotFound.value)
+        } else if (blockRequest.userId == blockRequest.blockedUserId) {
+            ApiResponse(null, "You Cannot Block Yourself", false, HttpStatusCode.NotFound.value)
+
         } else if (blockRepository.userAlreadyBlocked(blockRequest)) {
             ApiResponse(null, "User Already Blocked", false, HttpStatusCode.Conflict.value)
         } else {
@@ -41,4 +44,20 @@ class BlockService {
         }
 
     }
+
+    fun listBlockedUsers(id: Int): ApiResponse<String?> {
+
+        return if (!userRepository.idExists(id)) {
+            ApiResponse(null, "Users doesn't exist", false, HttpStatusCode.NotFound.value)
+        } else if (false) {
+            //TODO: call the list all blocked users from repository
+            ApiResponse(null, "Users doesn't exist", false, HttpStatusCode.NotFound.value)
+
+        } else {
+            ApiResponse(null, "Error", false, HttpStatusCode.InternalServerError.value)
+        }
+
+    }
+
+
 }

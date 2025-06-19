@@ -1,5 +1,6 @@
 package com.example.repository
 
+import com.example.model.BlockList
 import com.example.model.BlockRequest
 import com.example.table.BlockedUsers
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -8,6 +9,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import table.Users
 
 class BlockRepository {
 
@@ -37,5 +39,15 @@ class BlockRepository {
             }.limit(1).any()
         }
 
+    }
+
+    fun listBlockedUsers(id:Int):List<BlockList> {
+        //TODO: use joins
+         transaction {
+            BlockedUsers.selectAll().where{
+                Users.id eq id
+            }
+        }
+        return emptyList()
     }
 }
