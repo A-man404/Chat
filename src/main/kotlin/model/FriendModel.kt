@@ -9,7 +9,7 @@ data class BlockRequest(
 )
 
 @Serializable
-data class BlockList(
-    val name: String,
-    val userId: String
+data class BlockedUsersList(
+    val id:Int,
+    val name:String
 )
