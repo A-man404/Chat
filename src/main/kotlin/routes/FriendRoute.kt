@@ -63,5 +63,24 @@ fun Routing.friendRoutes() {
 
             }
         }
+        get("/blocklist") {
+            try {
+                val principal = call.principal<UserPrincipal>() ?: return@get call.respond(
+                    HttpStatusCode.InternalServerError,
+                    "Token Invalid or missing"
+                )
+                val result =
+                    blockService.listBlockedUsers(principal.userId)
+
+                call.respond(HttpStatusCode.fromValue(result.statusCode), result)
+
+            } catch (e: Exception) {
+                call.respond(HttpStatusCode.InternalServerError, "Error Occurred: ${e.message}")
+
+            }
+        }
+
+
+
     }
 }
