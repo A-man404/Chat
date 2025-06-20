@@ -14,3 +14,10 @@ object BlockedUsers : Table() {
     override val primaryKey = PrimaryKey(Users.id)
 
 }
+
+object FriendRequestTable : Table() {
+    val reqId = integer("reqId").autoIncrement()
+    val senderId = integer("senderId")
+    val receiverId = integer("receiverId")
+    val sentTime = timestamp("sentTime").defaultExpression(CurrentTimestamp())
+}
