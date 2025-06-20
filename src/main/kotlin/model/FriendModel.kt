@@ -10,6 +10,12 @@ data class BlockRequest(
 
 @Serializable
 data class BlockedUsersList(
-    val id:Int,
-    val name:String
+    val id: Int,
+    val name: String
+)
+
+@Serializable
+data class FriendRequest(
+    val senderId: Int,
+    val receiverId: Int
 )
