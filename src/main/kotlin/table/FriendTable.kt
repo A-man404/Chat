@@ -8,16 +8,16 @@ import table.Users
 
 object BlockedUsers : Table() {
     val id = integer("id").autoIncrement()
-    val userId = integer("userId")
-    val blockedUserId = integer("blockUserId")
-    val blockedTime = timestamp("blockedTime").defaultExpression(CurrentTimestamp())
+    val userId = integer("userid")
+    val blockedUserId = integer("blockUserid")
+    val blockedTime = timestamp("blockedtime").defaultExpression(CurrentTimestamp())
     override val primaryKey = PrimaryKey(Users.id)
 
 }
 
 object FriendRequestTable : Table() {
-    val reqId = integer("reqId").autoIncrement()
-    val senderId = integer("senderId")
-    val receiverId = integer("receiverId")
-    val sentTime = timestamp("sentTime").defaultExpression(CurrentTimestamp())
+    val reqId = integer("reqid").autoIncrement()
+    val senderId = integer("senderid")
+    val receiverId = integer("receiverid")
+    val sentTime = timestamp("senttime").defaultExpression(CurrentTimestamp())
 }
