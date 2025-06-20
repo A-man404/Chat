@@ -1,13 +1,10 @@
 package com.example.repository
 
-import com.example.model.BlockList
 import com.example.model.BlockRequest
+import com.example.model.BlockedUsersList
 import com.example.table.BlockedUsers
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import table.Users
 
@@ -41,13 +38,20 @@ class BlockRepository {
 
     }
 
-    fun listBlockedUsers(id:Int):List<BlockList> {
-        //TODO: use joins
-         transaction {
-            BlockedUsers.selectAll().where{
-                Users.id eq id
-            }
-        }
-        return emptyList()
+    fun getBlockedUsers(userId: Int): List<BlockedUsersList> {
+        return transaction {
+            BlockedUsers
+                .join(
+                    Users, JoinType.LEFT,
+                    additionalConstraint = { Users.id eq BlockedUsers.blockedUserId })
+                .select(Users.username, BlockedUsers.blockedUserId)
+                .where(BlockedUsers.userId eq userId)
+                .map {
+                    BlockedUsersList(
+                        name = it[Users.username],
+                        id = it[BlockedUsers.blockedUserId]
+                    )
+                }
+        }.toList()
     }
 }

@@ -2,6 +2,7 @@ package com.example.service
 
 import com.example.model.ApiResponse
 import com.example.model.BlockRequest
+import com.example.model.BlockedUsersList
 import com.example.repository.BlockRepository
 import com.example.repository.UserRepository
 import io.ktor.http.*
@@ -24,7 +25,7 @@ class BlockService {
 
             //TODO: remove from friend list as well
 
-            ApiResponse(block.toString(), "User Already Blocked", true, HttpStatusCode.OK.value)
+            ApiResponse(block.toString(), "User Blocked Successfully", true, HttpStatusCode.OK.value)
         }
 
     }
@@ -45,16 +46,14 @@ class BlockService {
 
     }
 
-    fun listBlockedUsers(id: Int): ApiResponse<String?> {
+    fun listBlockedUsers(id: Int): ApiResponse<List<BlockedUsersList?>> {
 
         return if (!userRepository.idExists(id)) {
             ApiResponse(null, "Users doesn't exist", false, HttpStatusCode.NotFound.value)
-        } else if (false) {
-            //TODO: call the list all blocked users from repository
-            ApiResponse(null, "Users doesn't exist", false, HttpStatusCode.NotFound.value)
 
         } else {
-            ApiResponse(null, "Error", false, HttpStatusCode.InternalServerError.value)
+            val list = blockRepository.getBlockedUsers(id)
+            ApiResponse(list, "Blocked Users List", true, HttpStatusCode.OK.value)
         }
 
     }
