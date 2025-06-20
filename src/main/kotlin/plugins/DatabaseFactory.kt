@@ -43,4 +43,12 @@ class DatabaseFactory {
         }
     }
 
+//    fun init() {
+//        transaction {
+//            SchemaUtils.drop(Users, BlockedUsers, FriendRequestTable)
+//            SchemaUtils.create(Users, BlockedUsers, FriendRequestTable)
+//        }
+//    }
+
+
 }
