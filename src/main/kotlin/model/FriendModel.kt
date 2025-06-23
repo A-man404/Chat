@@ -20,6 +20,7 @@ data class FriendRequest(
     val receiverId: Int
 )
 
+@Serializable
 data class FriendRequestDTO(
     val type: String,
     val otherId: Int,
