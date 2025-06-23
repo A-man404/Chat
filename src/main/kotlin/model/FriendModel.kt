@@ -19,3 +19,10 @@ data class FriendRequest(
     val senderId: Int,
     val receiverId: Int
 )
+
+data class FriendRequestDTO(
+    val type: String,
+    val otherId: Int,
+    val name: String,
+    val profileImage: String?
+)
