@@ -21,3 +21,13 @@ object FriendRequestTable : Table() {
     val receiverId = integer("receiverid")
     val sentTime = timestamp("senttime").defaultExpression(CurrentTimestamp())
 }
+
+object FriendTable : Table() {
+    val id = integer("id").autoIncrement()
+    val userId = integer("userid")
+    val friendId = integer("friendid")
+    val chatId = integer("chatid").default(0)
+    val mute = bool("mute").default(false)
+    val blocked = bool("blocked").default(false)
+    override val primaryKey = PrimaryKey(FriendTable.id)
+}
