@@ -4,12 +4,14 @@ import com.example.model.ApiResponse
 import com.example.model.FullUser
 import com.example.model.UserResponse
 import com.example.plugins.emailSender
+import com.example.repository.BlockRepository
 import com.example.repository.UserRepository
 import io.ktor.http.*
 import kotlin.random.Random
 
 class UserService {
     val userRepository = UserRepository()
+    val blockRepository = BlockRepository()
 
     fun listAllUsers(): ApiResponse<List<UserResponse>> {
         return try {
@@ -91,6 +93,7 @@ class UserService {
         }
     }
 
+    //TODO: add block system
     fun getProfileByUsername(name: String): ApiResponse<FullUser?> {
         return try {
 
