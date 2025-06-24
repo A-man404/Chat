@@ -2,6 +2,7 @@ package com.example.plugins
 
 import com.example.table.BlockedUsers
 import com.example.table.FriendRequestTable
+import com.example.table.FriendTable
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.github.cdimascio.dotenv.Dotenv
@@ -36,8 +37,8 @@ class DatabaseFactory {
 
     fun init() {
         transaction {
-            SchemaUtils.create(Users, BlockedUsers, FriendRequestTable)
-            SchemaUtils.addMissingColumnsStatements(Users, BlockedUsers, FriendRequestTable).forEach {
+            SchemaUtils.create(Users, BlockedUsers, FriendRequestTable, FriendTable)
+            SchemaUtils.addMissingColumnsStatements(Users, BlockedUsers, FriendRequestTable, FriendTable).forEach {
                 exec(it)
             }
         }
