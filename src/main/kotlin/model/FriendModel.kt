@@ -27,3 +27,9 @@ data class FriendRequestDTO(
     val name: String,
     val profileImage: String?
 )
+
+@Serializable
+data class AddFriend(
+    val userId: Int,
+    val friendId: Int
+)
