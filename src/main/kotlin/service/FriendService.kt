@@ -2,6 +2,7 @@ package com.example.service
 
 import com.example.model.AddFriend
 import com.example.model.ApiResponse
+import com.example.model.FriendList
 import com.example.repository.FriendRepository
 import io.ktor.http.*
 
@@ -57,6 +58,19 @@ class FriendService {
 
     }
 
-    //TODO: add a get friend list
+    fun friendsList(id: Int): ApiResponse<List<FriendList>> {
+        return try {
+            val res = friendRepository.fetchFriends(id)
+            ApiResponse(
+                res, "Friend List Fetched Successfully", true, HttpStatusCode.OK.value
+            )
+        } catch (e: Exception) {
+            ApiResponse(
+                null, "Error Occurred : ${e.message}", false, HttpStatusCode.InternalServerError.value
+            )
+        }
+
+    }
+
 
 }
