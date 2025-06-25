@@ -33,3 +33,11 @@ data class AddFriend(
     val userId: Int,
     val friendId: Int
 )
+
+@Serializable
+data class FriendList(
+    val friendId: Int,
+    val chatId: Int,
+    val username: String?,
+    val profileImage: String?
+)
