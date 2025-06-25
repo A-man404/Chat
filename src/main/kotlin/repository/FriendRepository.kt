@@ -1,6 +1,7 @@
 package com.example.repository
 
 import com.example.model.AddFriend
+import com.example.model.FriendList
 import com.example.table.FriendTable
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
@@ -8,6 +9,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import table.Users
 
 class FriendRepository {
 
@@ -38,10 +40,17 @@ class FriendRepository {
         }
     }
 
-    fun friendList(id: Int) {
+    fun fetchFriends(userId: Int): List<FriendList> {
         return transaction {
-            FriendTable.selectAll().where {
-                FriendTable.userId eq id
+            (FriendTable leftJoin Users).selectAll().where {
+                (FriendTable.userId eq userId) and (FriendTable.blocked eq false)
+            }.map { row ->
+                FriendList(
+                    friendId = row[FriendTable.friendId],
+                    chatId = row[FriendTable.chatId],
+                    username = row[Users.username],
+                    profileImage = row[Users.profilePhoto]
+                )
             }
         }
     }
