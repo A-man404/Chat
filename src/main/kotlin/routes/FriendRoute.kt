@@ -22,15 +22,22 @@ fun Routing.friendRoutes() {
                     HttpStatusCode.InternalServerError,
                     "Token Invalid or missing"
                 )
-                val blockedUserId = call.queryParameters["blockId"] ?: return@post call.respond(
+                val blockId = call.queryParameters["blockId"] ?: return@post call.respond(
                     HttpStatusCode.InternalServerError,
                     "Input a block request"
+                )
+
+                friendService.removeFriend(
+                    AddFriend(
+                        userId = principal.userId,
+                        friendId = blockId.toInt()
+                    )
                 )
                 val result =
                     blockService.blockUser(
                         BlockRequest(
                             userId = principal.userId,
-                            blockedUserId = blockedUserId.toInt()
+                            blockedUserId = blockId.toInt()
                         )
                     )
 
@@ -113,6 +120,20 @@ fun Routing.friendRoutes() {
                         "Input a friend"
                     )
                     val res = friendService.removeFriend(AddFriend(principal.userId, friendId.toInt()))
+                    call.respond(HttpStatusCode.OK, res)
+
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.BadRequest, e.message ?: "Bad Request")
+                }
+            }
+
+            get("/friend-list") {
+                try {
+                    val principal = call.principal<UserPrincipal>() ?: return@get call.respond(
+                        HttpStatusCode.InternalServerError,
+                        "Token Invalid or missing"
+                    )
+                    val res = friendService.friendsList(principal.userId)
                     call.respond(HttpStatusCode.OK, res)
 
                 } catch (e: Exception) {
