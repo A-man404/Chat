@@ -69,6 +69,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation("org.jetbrains.compose.material3.adaptive:adaptive:1.0.0-alpha03")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
