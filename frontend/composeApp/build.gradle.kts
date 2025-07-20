@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -69,7 +70,27 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation("org.jetbrains.compose.material3.adaptive:adaptive:1.0.0-alpha03")
+            //Adaptive
+            implementation(libs.adaptive)
+            //Icons
+            implementation(libs.eva.icons)
+            //Navigation
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.tabNavigator)
+            implementation(libs.voyager.bottomSheetNavigator)
+            implementation(libs.voyager.transitions)
+            implementation(libs.voyager.screenModel)
+
+            //Shared Preferences
+            implementation(libs.multiplatform.settings.no.arg)
+            //  implementation("com.russhwolf:multiplatform-settings:1.3.0")
+            //ktor
+            implementation(libs.bundles.ktor)
+            //ViewModel
+            implementation(libs.lifecycle.viewmodel.compose)
+            //Coil
+            implementation("io.coil-kt.coil3:coil-compose:3.2.0")
+            implementation("io.coil-kt.coil3:coil-network-okhttp:3.2.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
