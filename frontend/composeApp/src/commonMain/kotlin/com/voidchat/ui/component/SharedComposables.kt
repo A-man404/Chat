@@ -7,13 +7,24 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
 import kotlinx.coroutines.delay
 
 @Composable
 fun BlinkingText(
-    text: String, color: Color, style: TextStyle
+    text: String,
+    color: Color,
+    style: TextStyle = TextStyle.Default,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign = TextAlign.Start,
+    fontSize: TextUnit = TextUnit.Unspecified,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Visible
 ) {
     val typingSpeed = 50L
     val cursorBlinkSpeed = 500L
@@ -37,7 +48,13 @@ fun BlinkingText(
     }
 
     Text(
-        color = color, style = style,
+        color = color,
+        style = style,
+        maxLines = maxLines,
+        overflow = overflow,
+        modifier = modifier,
+        textAlign = textAlign,
+        fontSize = fontSize,
         text = if (showCursor) "$visibleText|" else "$visibleText ",
     )
 }
