@@ -2,15 +2,25 @@ package com.voidchat.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import com.voidchat.ui.component.BlinkingText
 import com.voidchat.utils.DeviceConfiguration
 
 object WelcomeScreen : Screen {
@@ -22,33 +32,71 @@ object WelcomeScreen : Screen {
         when (deviceConfiguration) {
             DeviceConfiguration.MOBILE_PORTRAIT -> {
                 // TODO: Compact layout
-                WelcomeContent()
+                CompactWelcomeContent()
 
             }
 
             DeviceConfiguration.MOBILE_LANDSCAPE, DeviceConfiguration.TABLET_PORTRAIT -> {
-                // TODO: Medium layout
             }
 
             DeviceConfiguration.TABLET_LANDSCAPE, DeviceConfiguration.DESKTOP -> {
-                // TODO: Expanded layout
-                WelcomeContent()
+                CompactWelcomeContent()
             }
         }
     }
 }
 
 @Composable
-private fun WelcomeContent() {
-    Column(
-        modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+private fun CompactWelcomeContent() {
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.TopStart
     ) {
-        BlinkingText(
-            "Step into the Void..",
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.displayLarge
-        )
+        val density = LocalDensity.current
+        val textSizeSp = with(density) {
+            (maxWidth / 2.7f).toSp()
+        }
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.Top
+            ) {
+                Text(
+                    text = "Vo",
+                    fontSize = textSizeSp,
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .padding(0.dp)
+                        .offset(x = (-textSizeSp.value * 0.25).dp, y = (-textSizeSp.value * 0.5).dp)
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "id",
+                    fontSize = textSizeSp,
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .padding(0.dp)
+                    // .offset(x = (-textSizeSp.value * 0.25).dp, y = (-textSizeSp.value * 0.5).dp)
+                )
+            }
+        }
+
+
     }
 }
